@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh 'ls -ltr'
                 // build the project and create a JAR file
-                sh  'cd /springmvc-for-my-CICD && mvn clean package'
+                sh  ' mvn clean package'
             }
         }
         
@@ -26,7 +26,7 @@ pipeline {
                  SONAR_URL = "http://localhost:9000/"} // we have opted here for a docker container as a sonarqube server
                  steps{
                      withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
-          sh 'cd /springmvc-for-my-CICD && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
+          sh 'mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
         }       
                  }
             
