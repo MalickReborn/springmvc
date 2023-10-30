@@ -7,7 +7,7 @@ pipeline {
     }
     
     stages {
-        stage (checkout){
+        stage ("checkout"){
             sh "echo passed"
             // checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MalickReborn/springmvc-for-my-CICD.git']])
         }
@@ -17,7 +17,7 @@ pipeline {
             }
         }
         
-        stage(Static Code Analysis){
+        stage("Static Code Analysis"){
             environment(
                  SONAR_URL = "http://localhost:9000/") // we have opted here for a docker container as a sonarqube server
                  steps{
