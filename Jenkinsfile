@@ -34,16 +34,11 @@ pipeline {
         
         stage('Build and Push Docker Image') {
       environment {
-        DOCKER_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-        REGISTRY_CREDENTIALS = credentials('docker-cred')
-      }
-      steps {
-          environment {
         DOCKER_IMAGE = "malickguess/ultimate-cicd:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "springmvc-for-my-CICD/Dockerfile"
         REGISTRY_CREDENTIALS = credentials('dockerhub')
       }
+      steps {
         script {
             sh 'cd /springmvc-for-my-CICD && docker build -t ${DOCKER_IMAGE} .'
             def dockerImage = docker.image("${DOCKER_IMAGE}")
