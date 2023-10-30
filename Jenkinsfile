@@ -8,23 +8,26 @@ pipeline {
     
     stages {
         stage ("checkout"){
+            steps {
             sh "echo passed"
             // checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/MalickReborn/springmvc-for-my-CICD.git']])
+        } 
         }
         stage('Build and test') {
             steps {
+                sh 'ls -ltr'
+                // build the project and create a JAR file
                 sh  'cd /springmvc-for-my-CICD && mvn clean package'
             }
         }
         
         stage("Static Code Analysis"){
-            environment(
-                 SONAR_URL = "http://localhost:9000/") // we have opted here for a docker container as a sonarqube server
+            environment {
+                 SONAR_URL = "http://localhost:9000/"} // we have opted here for a docker container as a sonarqube server
                  steps{
                      withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_AUTH_TOKEN')]) {
           sh 'cd /springmvc-for-my-CICD && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}'
-        }
-                     
+        }       
                  }
             
         }
